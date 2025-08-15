@@ -32,10 +32,10 @@ export class CommentService {
 		}
 
 		switch (input.commentGroup) {
-			case CommentGroup.PROPERTY:
+			case CommentGroup.JOB:
 				await this.jobService.jobStatsEditor({
 					_id: input.commentRefId,
-					targetKey: 'propertyComments',
+					targetKey: 'jobComments',
 					modifier: 1,
 				});
 				break;

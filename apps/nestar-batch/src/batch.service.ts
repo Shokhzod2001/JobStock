@@ -1,51 +1,51 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Member } from 'apps/nestar-api/src/libs/dto/member/member';
-import { Property } from 'apps/nestar-api/src/libs/dto/job/job';
+import { Job } from 'apps/nestar-api/src/libs/dto/job/job';
 import { MemberStatus, MemberType } from 'apps/nestar-api/src/libs/enums/member.enum';
-import { PropertyStatus } from 'apps/nestar-api/src/libs/enums/job.enum';
+import { JobStatus } from 'apps/nestar-api/src/libs/enums/job.enum';
 import { Model } from 'mongoose';
 
 @Injectable()
 export class BatchService {
 	constructor(
-		@InjectModel('Property') private readonly propertyModel: Model<Property>,
+		@InjectModel('Job') private readonly jobModel: Model<Job>,
 		@InjectModel('Member') private readonly memberModel: Model<Member>,
 	) {}
 
 	public async batchRollback(): Promise<void> {
-		await this.propertyModel.updateMany({ propertyStatus: PropertyStatus.ACTIVE }, { propertyRank: 0 }).exec();
+		await this.jobModel.updateMany({ jobStatus: JobStatus.ACTIVE }, { jobRank: 0 }).exec();
 		await this.memberModel
-			.updateMany({ memberStatus: MemberStatus.ACTIVE, memberType: MemberType.AGENT }, { memberRank: 0 })
+			.updateMany({ memberStatus: MemberStatus.ACTIVE, memberType: MemberType.RECRUITER }, { memberRank: 0 })
 			.exec();
 	}
 
-	public async batchTopProperties(): Promise<void> {
-		const properties: Property[] = await this.propertyModel
+	public async batchTopJobs(): Promise<void> {
+		const jobs: Job[] = await this.jobModel
 			.find({
-				propertyStatus: PropertyStatus.ACTIVE,
-				propertyRank: 0,
+				jobStatus: JobStatus.ACTIVE,
+				jobRank: 0,
 			})
 			.exec();
 
-		const promisedList = properties.map(async (ele: Property) => {
-			const { _id, propertyLikes, propertyViews } = ele;
-			const rank = propertyLikes * 2 + propertyViews * 1;
-			return await this.propertyModel.findByIdAndUpdate(_id, { propertyRank: rank });
+		const promisedList = jobs.map(async (ele: Job) => {
+			const { _id, jobLikes, jobViews } = ele;
+			const rank = jobLikes * 2 + jobViews * 1;
+			return await this.jobModel.findByIdAndUpdate(_id, { jobRank: rank });
 		});
 		await Promise.all(promisedList);
 	}
 
-	public async batchTopAgents(): Promise<void> {
-		const agents: Member[] = await this.memberModel
+	public async batchTopRecruiters(): Promise<void> {
+		const recruiters: Member[] = await this.memberModel
 			.find({
-				memberType: MemberType.AGENT,
+				memberType: MemberType.RECRUITER,
 				memberStatus: MemberStatus.ACTIVE,
 				memberRank: 0,
 			})
 			.exec();
 
-		const promisedList = agents.map(async (ele: Member) => {
+		const promisedList = recruiters.map(async (ele: Member) => {
 			const { _id, memberProperties, memberLikes, memberArticles, memberViews } = ele;
 			const rank = memberProperties * 5 + memberArticles * 3 + memberLikes * 2 + memberViews * 1;
 			return await this.memberModel.findByIdAndUpdate(_id, { memberRank: rank });
