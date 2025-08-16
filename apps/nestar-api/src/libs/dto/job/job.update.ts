@@ -1,7 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { IsNotEmpty, IsOptional, Length, Min } from 'class-validator';
 import { ObjectId } from 'mongoose';
-import { JobLocation, JobStatus, JobType } from '../../enums/job.enum';
+import { JobCategory, JobLocation, JobStatus, JobType } from '../../enums/job.enum';
 
 @InputType()
 export class JobUpdate {
@@ -30,6 +30,10 @@ export class JobUpdate {
 	@Length(3, 100)
 	@Field(() => String, { nullable: true })
 	jobTitle?: string;
+
+	@IsOptional()
+	@Field(() => JobCategory, { nullable: true })
+	jobCategory?: JobCategory;
 
 	@IsOptional()
 	@Min(0)

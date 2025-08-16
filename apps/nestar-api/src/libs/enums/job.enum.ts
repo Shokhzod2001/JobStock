@@ -35,3 +35,23 @@ export enum JobLocation {
 registerEnumType(JobLocation, {
 	name: 'JobLocation',
 });
+
+export enum JobCategory {
+	IT = 'IT',
+	FINANCE = 'FINANCE',
+	EDUCATION = 'EDUCATION',
+	HEALTHCARE = 'HEALTHCARE',
+	ENGINEERING = 'ENGINEERING',
+	MARKETING = 'MARKETING',
+	SALES = 'SALES',
+	CUSTOMER_SERVICE = 'CUSTOMER_SERVICE',
+	HUMAN_RESOURCES = 'HUMAN_RESOURCES',
+	MANUFACTURING = 'MANUFACTURING',
+	HOSPITALITY = 'HOSPITALITY',
+	CONSTRUCTION = 'CONSTRUCTION',
+	TRANSPORTATION = 'TRANSPORTATION',
+	OTHER = 'OTHER',
+}
+registerEnumType(JobCategory, {
+	name: 'JobCategory',
+});

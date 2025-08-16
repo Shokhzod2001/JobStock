@@ -2,7 +2,7 @@ import { Field, InputType, Int } from '@nestjs/graphql';
 import { IsIn, IsNotEmpty, IsOptional, Length, Min } from 'class-validator';
 import { ObjectId } from 'mongoose';
 import { Direction } from '../../enums/common.enum';
-import { JobLocation, JobStatus, JobType } from '../../enums/job.enum';
+import { JobCategory, JobLocation, JobStatus, JobType } from '../../enums/job.enum';
 import { availableJobSorts, availableOptions } from '../../config';
 
 @InputType()
@@ -10,6 +10,10 @@ export class JobInput {
 	@IsNotEmpty()
 	@Field(() => JobType)
 	jobType: JobType;
+
+	@IsNotEmpty()
+	@Field(() => JobCategory)
+	jobCategory: JobCategory;
 
 	@IsNotEmpty()
 	@Field(() => JobLocation)
@@ -118,6 +122,10 @@ class JISearch {
 	typeList?: JobType[];
 
 	@IsOptional()
+	@Field(() => [JobCategory], { nullable: true })
+	categoryList?: JobCategory[];
+
+	@IsOptional()
 	@Field(() => [String], { nullable: true })
 	skillsList?: string[];
 
@@ -215,6 +223,10 @@ class AllJISearch {
 	@IsOptional()
 	@Field(() => [JobType], { nullable: true })
 	jobTypeList?: JobType[];
+
+	@IsOptional()
+	@Field(() => [JobCategory], { nullable: true })
+	jobCategoryList?: JobCategory[];
 }
 
 @InputType()

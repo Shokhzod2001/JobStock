@@ -1,11 +1,17 @@
 import { Schema } from 'mongoose';
-import { JobLocation, JobStatus, JobType } from '../libs/enums/job.enum';
+import { JobCategory, JobLocation, JobStatus, JobType } from '../libs/enums/job.enum';
 
 const JobSchema = new Schema(
 	{
 		jobType: {
 			type: String,
 			enum: JobType,
+			required: true,
+		},
+
+		jobCategory: {
+			type: String,
+			enum: JobCategory,
 			required: true,
 		},
 

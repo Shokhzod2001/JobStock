@@ -123,12 +123,23 @@ export class JobService {
 	}
 
 	private shapeMatchQuery(match: T, input: JobsInquiry): void {
-		const { memberId, locationList, typeList, skillsList, salaryRange, experienceRange, deadlineRange, options, text } =
-			input.search;
+		const {
+			memberId,
+			locationList,
+			typeList,
+			categoryList,
+			skillsList,
+			salaryRange,
+			experienceRange,
+			deadlineRange,
+			options,
+			text,
+		} = input.search;
 		if (memberId) match.memberId = shapeIntoMongoObjectId(memberId);
 		if (locationList && locationList.length) match.jobLocation = { $in: locationList };
 		if (skillsList && skillsList.length) match.jobSkills = { $in: skillsList };
 		if (typeList && typeList.length) match.jobType = { $in: typeList };
+		if (categoryList && categoryList.length) match.jobCategory = { $in: categoryList };
 
 		if (salaryRange) match.jobSalary = { $gte: salaryRange.start, $lte: salaryRange.end };
 		if (experienceRange) match.jobExperience = { $gte: experienceRange.start, $lte: experienceRange.end };
@@ -205,13 +216,14 @@ export class JobService {
 	// ADMIN
 
 	public async getAllJobsByAdmin(input: AllJobsInquiry): Promise<Jobs> {
-		const { jobStatus, jobLocationList, jobTypeList } = input.search;
+		const { jobStatus, jobLocationList, jobTypeList, jobCategoryList } = input.search;
 		const match: T = {};
 		const sort: T = { [input?.sort ?? 'createdAt']: input?.direction ?? Direction.DESC };
 
 		if (jobStatus) match.jobStatus = jobStatus;
 		if (jobLocationList) match.jobLocationList = { $in: jobLocationList };
 		if (jobTypeList) match.jobTypeList = { $in: jobTypeList };
+		if (jobCategoryList) match.jobCategory = { $in: jobCategoryList };
 
 		const result = await this.jobModel
 			.aggregate([
