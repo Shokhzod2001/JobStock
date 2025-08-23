@@ -2,7 +2,7 @@ import { Field, InputType, Int } from '@nestjs/graphql';
 import { IsIn, IsNotEmpty, IsOptional, Length, Min } from 'class-validator';
 import { ObjectId } from 'mongoose';
 import { Direction } from '../../enums/common.enum';
-import { JobCategory, JobLocation, JobStatus, JobType } from '../../enums/job.enum';
+import { JobCategory, JobLocation, JobStatus, JobType, SalaryType } from '../../enums/job.enum';
 import { availableJobSorts, availableOptions } from '../../config';
 
 @InputType()
@@ -35,6 +35,10 @@ export class JobInput {
 	jobSalary: number;
 
 	@IsNotEmpty()
+	@Field(() => SalaryType)
+	salaryType: SalaryType;
+
+	@IsNotEmpty()
 	@Min(0)
 	@Field(() => Number)
 	jobExperience: number;
@@ -55,6 +59,11 @@ export class JobInput {
 	@IsNotEmpty()
 	@Field(() => Date)
 	jobApplicationDeadline: Date;
+
+	@IsNotEmpty()
+	@Length(2, 100)
+	@Field(() => String)
+	companyName: string;
 
 	@IsNotEmpty()
 	@Field(() => [String])
@@ -126,6 +135,10 @@ class JISearch {
 	categoryList?: JobCategory[];
 
 	@IsOptional()
+	@Field(() => [SalaryType], { nullable: true })
+	salaryTypeList?: SalaryType[];
+
+	@IsOptional()
 	@Field(() => [String], { nullable: true })
 	skillsList?: string[];
 
@@ -144,6 +157,10 @@ class JISearch {
 	@IsOptional()
 	@Field(() => String, { nullable: true })
 	text?: string;
+
+	@IsOptional()
+	@Field(() => String, { nullable: true })
+	companyName?: string;
 
 	@IsOptional()
 	@IsIn(availableOptions, { each: true })
@@ -182,6 +199,10 @@ class EJISearch {
 	@IsOptional()
 	@Field(() => JobStatus, { nullable: true })
 	jobStatus?: JobStatus;
+
+	@IsOptional()
+	@Field(() => String, { nullable: true })
+	companyName?: string;
 }
 
 @InputType()
@@ -227,6 +248,14 @@ class AllJISearch {
 	@IsOptional()
 	@Field(() => [JobCategory], { nullable: true })
 	jobCategoryList?: JobCategory[];
+
+	@IsOptional()
+	@Field(() => [SalaryType], { nullable: true })
+	salaryTypeList?: SalaryType[];
+
+	@IsOptional()
+	@Field(() => String, { nullable: true })
+	companyName?: string;
 }
 
 @InputType()

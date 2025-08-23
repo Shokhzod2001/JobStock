@@ -55,3 +55,17 @@ export enum JobCategory {
 registerEnumType(JobCategory, {
 	name: 'JobCategory',
 });
+
+export enum SalaryType {
+	HOURLY = 'HOURLY',
+	DAILY = 'DAILY',
+	WEEKLY = 'WEEKLY',
+	MONTHLY = 'MONTHLY',
+	YEARLY = 'YEARLY',
+	PROJECT = 'PROJECT',
+	COMMISSION = 'COMMISSION',
+}
+
+registerEnumType(SalaryType, {
+	name: 'SalaryType',
+});

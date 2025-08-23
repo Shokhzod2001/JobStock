@@ -1,6 +1,6 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { ObjectId } from 'mongoose';
-import { JobType, JobStatus, JobLocation, JobCategory } from '../../enums/job.enum';
+import { JobType, JobStatus, JobLocation, JobCategory, SalaryType } from '../../enums/job.enum';
 import { Member, TotalCounter } from '../member/member';
 import { MeLiked } from '../like/like';
 
@@ -30,6 +30,9 @@ export class Job {
 	@Field(() => Number)
 	jobSalary: number;
 
+	@Field(() => SalaryType)
+	salaryType: SalaryType;
+
 	@Field(() => Int)
 	jobExperience: number;
 
@@ -44,6 +47,9 @@ export class Job {
 
 	@Field(() => Date)
 	jobApplicationDeadline: Date;
+
+	@Field(() => String)
+	companyName: string;
 
 	@Field(() => Int)
 	jobViews: number;

@@ -1,5 +1,5 @@
 import { Schema } from 'mongoose';
-import { JobCategory, JobLocation, JobStatus, JobType } from '../libs/enums/job.enum';
+import { JobCategory, JobLocation, JobStatus, JobType, SalaryType } from '../libs/enums/job.enum';
 
 const JobSchema = new Schema(
 	{
@@ -42,6 +42,12 @@ const JobSchema = new Schema(
 			required: true,
 		},
 
+		salaryType: {
+			type: String,
+			enum: SalaryType,
+			default: SalaryType.YEARLY,
+		},
+
 		jobExperience: {
 			type: Number,
 			required: true,
@@ -64,6 +70,11 @@ const JobSchema = new Schema(
 
 		jobApplicationDeadline: {
 			type: Date,
+			required: true,
+		},
+
+		companyName: {
+			type: String,
 			required: true,
 		},
 
