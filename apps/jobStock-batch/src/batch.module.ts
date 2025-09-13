@@ -5,8 +5,8 @@ import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { MongooseModule } from '@nestjs/mongoose';
-import MemberSchema from 'apps/nestar-api/src/schemas/Member.model';
-import JobSchema from 'apps/nestar-api/src/schemas/Job.model';
+import MemberSchema from 'apps/jobStock-api/src/schemas/Member.model';
+import JobSchema from 'apps/jobStock-api/src/schemas/Job.model';
 
 @Module({
 	imports: [

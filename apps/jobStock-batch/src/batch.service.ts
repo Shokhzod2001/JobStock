@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Member } from 'apps/nestar-api/src/libs/dto/member/member';
-import { Job } from 'apps/nestar-api/src/libs/dto/job/job';
-import { MemberStatus, MemberType } from 'apps/nestar-api/src/libs/enums/member.enum';
-import { JobStatus } from 'apps/nestar-api/src/libs/enums/job.enum';
+import { Member } from 'apps/jobStock-api/src/libs/dto/member/member';
+import { Job } from 'apps/jobStock-api/src/libs/dto/job/job';
+import { MemberStatus, MemberType } from 'apps/jobStock-api/src/libs/enums/member.enum';
+import { JobStatus } from 'apps/jobStock-api/src/libs/enums/job.enum';
 import { Model } from 'mongoose';
 
 @Injectable()
@@ -54,6 +54,6 @@ export class BatchService {
 	}
 
 	public getHello(): string {
-		return 'Welcome to Nestar Batch Server!';
+		return 'Welcome to JobStock Batch Server!';
 	}
 }
