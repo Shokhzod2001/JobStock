@@ -128,6 +128,7 @@ export class JobService {
 			locationList,
 			typeList,
 			categoryList,
+			salaryTypeList,
 			skillsList,
 			salaryRange,
 			experienceRange,
@@ -140,13 +141,14 @@ export class JobService {
 		if (skillsList && skillsList.length) match.jobSkills = { $in: skillsList };
 		if (typeList && typeList.length) match.jobType = { $in: typeList };
 		if (categoryList && categoryList.length) match.jobCategory = { $in: categoryList };
+		if (salaryTypeList && salaryTypeList.length) match.salaryType = { $in: salaryTypeList };
 
 		if (salaryRange) match.jobSalary = { $gte: salaryRange.start, $lte: salaryRange.end };
 		if (experienceRange) match.jobExperience = { $gte: experienceRange.start, $lte: experienceRange.end };
 		if (deadlineRange) match.jobApplicationDeadline = { $gte: deadlineRange.start, $lte: deadlineRange.end };
 
 		if (text) match.jobTitle = { $regex: new RegExp(text, 'i') };
-		if (options) {
+		if (options && options.length) {
 			match['$or'] = options.map((ele) => {
 				return { [ele]: true };
 			});
