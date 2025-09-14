@@ -9,8 +9,8 @@ import { ObjectId } from 'mongoose';
 import { CommentUpdate } from '../../libs/dto/comment/comment.update';
 import { shapeIntoMongoObjectId } from '../../libs/config';
 import { WithoutGuard } from '../auth/guards/without.guard';
-import { Roles } from '../auth/decorators/roles.decorator';
 import { MemberType } from '../../libs/enums/member.enum';
+import { Roles } from '../auth/decorators/roles.decorator';
 import { RolesGuard } from '../auth/guards/roles.guard';
 
 @Resolver()
@@ -18,7 +18,7 @@ export class CommentResolver {
 	constructor(private readonly commentService: CommentService) {}
 
 	@UseGuards(AuthGuard)
-	@Mutation((returns) => Comment)
+	@Mutation(() => Comment)
 	public async createComment(
 		@Args('input') input: CommentInput,
 		@AuthMember('_id') memberId: ObjectId,
@@ -28,7 +28,7 @@ export class CommentResolver {
 	}
 
 	@UseGuards(AuthGuard)
-	@Mutation((returns) => Comment)
+	@Mutation(() => Comment)
 	public async updateComment(
 		@Args('input') input: CommentUpdate,
 		@AuthMember('_id') memberId: ObjectId,
@@ -39,7 +39,7 @@ export class CommentResolver {
 	}
 
 	@UseGuards(WithoutGuard)
-	@Query((returns) => Comments)
+	@Query(() => Comments)
 	public async getComments(
 		@Args('input') input: CommentsInquiry,
 		@AuthMember('_id') memberId: ObjectId,
@@ -49,14 +49,13 @@ export class CommentResolver {
 		return await this.commentService.getComments(memberId, input);
 	}
 
-	// ADMIN
-
+	/** ADMIN **/
 	@Roles(MemberType.ADMIN)
 	@UseGuards(RolesGuard)
-	@Mutation((returns) => Comment)
+	@Mutation(() => Comment)
 	public async removeCommentByAdmin(@Args('commentId') input: string): Promise<Comment> {
 		console.log('Mutation: removeCommentByAdmin');
-		const commentId = shapeIntoMongoObjectId(input);
-		return await this.commentService.removePropertyByAdmin(commentId);
+		const commentId: ObjectId = shapeIntoMongoObjectId(input);
+		return await this.commentService.removeCommentByAdmin(commentId);
 	}
 }

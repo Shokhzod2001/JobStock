@@ -6,15 +6,21 @@ import CommentSchema from '../../schemas/Comment.model';
 import { AuthModule } from '../auth/auth.module';
 import { MemberModule } from '../member/member.module';
 import { BoardArticleModule } from '../board-article/board-article.module';
+import { NotificationModule } from '../notification/notification.module';
+import MemberSchema from '../../schemas/Member.model';
 import { JobModule } from '../job/job.module';
 
 @Module({
 	imports: [
-		MongooseModule.forFeature([{ name: 'Comment', schema: CommentSchema }]),
+		MongooseModule.forFeature([
+			{ name: 'Comment', schema: CommentSchema },
+			{ name: 'Member', schema: MemberSchema },
+		]),
 		AuthModule,
 		MemberModule,
 		JobModule,
 		BoardArticleModule,
+		NotificationModule,
 	],
 	providers: [CommentResolver, CommentService],
 })
