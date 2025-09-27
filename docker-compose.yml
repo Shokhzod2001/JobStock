@@ -4,7 +4,7 @@ services:
   jobStock-api:
     container_name: jobStock-api
     restart: always
-    image: node:20.10.0
+    image: node:22.17.0
     ports:
       - '4001:3003'
     volumes:
@@ -19,7 +19,7 @@ services:
   jobStock-batch:
     container_name: jobStock-batch
     restart: unless-stopped
-    image: node:20.10.0
+    image: node:22.17.0
     ports:
       - '4002:3004'
     volumes:
@@ -37,3 +37,9 @@ networks:
 # jobStock-next: localhost: 4000 => container: 3000
 # jobStock-api: localhost: 4001 => container: 3003
 # jobStock-batch: localhost: 4002 => container: 3004
+
+# docker compose up -d
+# docker compose stop
+# docker compose start
+# docker compose restart
+# docker compose stop && docker compose rm -f
