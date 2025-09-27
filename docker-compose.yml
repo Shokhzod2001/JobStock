@@ -1,0 +1,39 @@
+version: '3.3'
+
+services:
+  jobStock-api:
+    container_name: jobStock-api
+    restart: always
+    image: node:20.10.0
+    ports:
+      - '4001:3003'
+    volumes:
+      - ./:/usr/src/jobStock
+    working_dir: /usr/src/jobStock
+
+    # For Production
+    command: bash -c "npm install && npm run build && npm run start:prod"
+    networks:
+      - monorepo-network
+
+  jobStock-batch:
+    container_name: jobStock-batch
+    restart: unless-stopped
+    image: node:20.10.0
+    ports:
+      - '4002:3004'
+    volumes:
+      - ./:/usr/src/jobStock
+    working_dir: /usr/src/jobStock
+
+    # For Production
+    command: bash -c "npm install && npm run build && npm run start:prod:batch"
+    networks:
+      - monorepo-network
+
+networks:
+  monorepo-network:
+    driver: bridge
+# jobStock-next: localhost: 4000 => container: 3000
+# jobStock-api: localhost: 4001 => container: 3003
+# jobStock-batch: localhost: 4002 => container: 3004
